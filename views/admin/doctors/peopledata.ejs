@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>个人信息页面</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="stylesheet" href="/static/css/font.css" />
+    <link rel="stylesheet" href="/static/css/weadmin.css" />
+  </head>
+  <style>
+    #menu{width: 800px}
+    #menu span{display: block;cursor: pointer;}
+    #menu span.close:before{content: "+";}
+    #menu span.open:before{content: "+ ";}
+    ul li{margin-bottom: 10px; cursor: pointer;}
+    span ul li{margin-bottom: 10px;}
+    span{
+        color: white;
+    }
+</style>
+  <body>
+    <div class="weadmin-body">
+      <form class="layui-form" action="/admin/doctors/doctorsList/peopledata" method="POST">
+        <div class="layui-form-item">
+            <ul id="menu">
+                <li>
+                    <span>2019年-12月</span>
+                    <ul>
+                        <li><span>
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="150">
+                                    <col width="200">
+                                    <col>
+                                  </colgroup>
+                                  <thead>
+                                    <tr>
+                                      <th>预约时间</th>
+                                      <th>预约人数</th>
+                                      <th>规定人数</th>
+                                    </tr> 
+                                  </thead>
+                                  <tbody>
+                                    <% for(let i = 0;i<result.length;i++){%>
+                                    <tr>
+                                        <td><%-result[i].datatime%></td>
+                                        <td><%-result[i].num%></td><option>
+                                       <td><%-result[i].stipulate%></td>
+                                    </tr>
+                                    <%}%>
+                                  </tbody>
+                                </table>
+                            </table>
+
+                        </span>
+                    
+                        
+                    </li>
+                       
+                    </ul>
+                </li>
+                <ul id="menu">
+                    <li>
+                        <span>2020年-1月</span>
+                        <ul>
+                            <li><span>
+                                <table class="layui-table">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                      </colgroup>
+                                      <thead>
+                                        <tr>
+                                          <th>预约时间</th>
+                                          <th>预约人数</th>
+                                          <th>规定人数</th>
+                                        </tr> 
+                                      </thead>
+                                      <tbody>
+                                        <% for(let i = 0;i<result.length;i++){%>
+                                        <tr>
+                                            <td><%-timearr[i]%></td>
+                                            <td><%-result[i].num%></td><option>
+                                           <td><%-result[i].stipulate%></td>
+                                        </tr>
+                                        <%}%>
+                                      </tbody>
+                                    </table>
+                                </table>
+    
+                            </span>
+                        
+                            
+                        </li>
+                           
+                        </ul>
+                    </li>
+        </div>
+      </form>
+    </div>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+ layui.extend({
+				admin: '{/}/static/js/admin'
+			});
+	    layui.use(['form','layer','admin','upload','jquery','laydate'], function(){
+	      var form = layui.form,
+	      	admin = layui.admin,
+          layer = layui.layer;
+        var upload = layui.upload;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#data',
+         range: true,
+          trigger:"click"
+        });
+
+        form.render();
+       //自定义验证规则
+       form.verify({
+            nikename: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
+            },
+            doctorname: [/^[a-zA-Z\u4e00-\u9fa5]+$/, '不能为空且只能输入中文和英文字母'],
+            age:[/^(1[18]|[2-6]\d|60)$/,"不能为空且只能输入18到69岁"],//18岁以上
+            gender:[/^(男|女|中)$/,"不能为空且只能输入男性或者女性，中性，且不能大于两位"],
+            allpeople:[/^\d+$|^\d+[.]?\d+$/,"不能为空而且只能输入纯数字"],
+            data:function(value){//值班日期
+              if(value.length==0){
+                  return "必须设置值班时间";
+              }
+            },
+            dutyid:function(value){//值班时段
+                if (value.length==0) {
+                  return "必须设置值班时段"
+                }
+            }
+          });
+
+       
+
+        //执行实列
+        var uploadInst = upload.render({
+          elem: '#imgfile' //绑定元素
+          ,url: '/admin/doctors/doctorsList/selfimgupload?id=<%-result.id%>', //根据id获取修改的信息
+          field:'imgfile'
+          ,done: function(res){
+            //上传完毕回调
+            $('#imgUrl').attr('src',res.imgUrl)
+            $("#imgheader").val(res.imgUrl)
+          }
+          ,error: function(){
+            //请求异常回调
+          }
+        });
+
+
+
+
+
+
+
+    
+ //监听提交
+  form.on('submit(add)', function(data) {
+            console.log(data.field);
+            $.ajax({
+              method:'post',
+              url:'/admin/doctors/doctorsList/modification?id=<%-result.id%>',
+            data:data.field
+
+            })
+
+
+           layer.alert('修改成功', { icon: 6 }, function() {
+            // 获得frame索引
+            var index = parent.layer.getFrameIndex(window.name);
+            //关闭当前frame
+            parent.layer.close(index);
+            parent.location.reload()
+          });
+          return false;
+        });
+      });
+
+       
+      
+ 
+      
+    </script>
+     <script type="text/javascript">
+    
+    var oSpans=document.getElementById("menu").getElementsByTagName("span");
+    for(var i=0;i<oSpans.length;i++){
+        var oSapn=oSpans[i];
+        var oUl=getNext(oSapn);
+        if(oUl&&oUl.nodeName==="UL"){
+            oUl.style.display="none";
+            oSapn.style.backgroundColor="orange";
+            oSapn.className="close"
+        }else{
+            oSapn.style.backgroundColor="#CCC";
+        }
+
+    }
+    document.getElementById("menu").onclick=function(event){
+        event=event||window.event;
+        var target=event.target||event.srcElement;
+        if(target.nodeName=="SPAN"){
+            var oUl=getNext(target);
+            if(oUl&&oUl.nodeName=="UL"){
+                if(oUl.style.display=="none"){
+                    oUl.style.display="block";
+                    target.className="open"
+                }else{
+                    oUl.style.display="none";
+                    target.className="close";
+                    /*解决顶级关闭然后打开；第二级和第三级处于打开状态的bug*/
+                    if(oUl.getElementsByTagName("UL")){
+                        var oUls=oUl.getElementsByTagName("UL");
+                        for(var i=0;i<oUls.length;i++){
+                            getPre(oUls[i]).className="close";
+                            oUls[i].style.display="none";
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    function getNext(curEle) {//下一个弟弟节点，第一个弟弟节点；
+        if ("getElementsByClassName" in window) {
+            return curEle.nextElementSibling;
+        }
+        var next = curEle.nextSibling;
+        while (next && next.nodeType !== 1) {
+            next = next.nextSibling;
+        }
+        return next;
+    };
+    function getPre(curEle) {//上一个哥哥节点；
+        if ("getElementsByClassName" in window) {
+            return curEle.previousElementSibling;
+        }
+        var pre = curEle.previousSibling;
+        while (pre && pre.nodeType !== 1) {
+            pre = pre.previousSibling;
+        }
+        return pre;
+    }
+     </script>
+  </body>
+</html>

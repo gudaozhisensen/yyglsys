@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="/js/appjs/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="/css/common/self.css"/>
+		<style>
+			.layui-upload-file{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<div class="title">个人信息</div>
+		</div>
+		<div class="backBtn">
+			<a href="/index/private">
+			<img src="/img/common/close.png" >
+			</a>
+		</div>
+		<div class="content">
+			<form action="/index/private/selfCenter" method="POST">
+				<div class="touxiang">
+					<span>头像:</span>
+					<img class="imgheader" src="<%-user.imgheader%>" >
+					<button id="uphead" type="button">上传头像</button>
+				</div>
+				<div class="username">
+					<span>用户名:</span>
+					<span><%-user.username%></span>
+				</div>
+				<div class="email">
+					<span>邮箱:</span>
+					<input type="text" name="email" id="email" value="<%-user.email%>" />
+					<div class="warn"><span>*</span>请输入正确邮箱的格式!</div>
+				</div>
+				<div class="password">
+					<span>密码:</span>
+					<input type="password" name="password" id="password" placeholder="可以不修改" />
+					<div class="warn1"><span>*</span>至少6位字符!</div>
+				</div>
+				<div class="password">
+					<span>确认密码:</span>
+					<input type="password" name="repassword" id="repassword" placeholder="可以不修改" />
+					<div class="warn2"><span>*</span>两次输入的密码不一致!</div>
+				</div>
+				<input hidden="hidden" id="subBtn" name="subBtn" type="submit" value=""/>
+				<label class="subBtn" for="subBtn" >修改</label>
+			</form>
+		</div>
+			
+		<div class="bottom">
+			<span>到底了</span>
+		</div>
+		<script src="/js/appjs/jquery-1.11.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.extend({
+				admin: '{/}static/js/admin'
+			});
+
+			$('#email').change(function(){
+				let regE = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+				if(!(regE.test($('#email').val()))){
+					$('.warn').css('display','block')
+				}else{
+					$('.warn').css('display','none')
+				}	
+			})
+			$('#password').change(function(){
+				let regP = /^\d{6}$/
+				if(!(regP.test($('#password').val()))){
+					$('.warn1').css('display','block')
+				}else{
+					$('.warn1').css('display','none')
+				}
+			})
+			$('#repassword').change(function(){
+				if($('#password').val()==$('#repassword').val()){
+					$('.warn2').css('display','none')
+				}else{
+					$('.warn2').css('display','block')
+				}
+			})
+			
+			
+			layui.use(['form','layer','upload','jquery'], function(){
+				var form = layui.form,
+					layer = layui.layer,
+					upload = layui.upload,
+					$ = layui.jquery;
+				//执行实例
+				var uploadInst = upload.render({
+					elem: '#uphead' //绑定元素
+					,url: '/index/private/selfCenter/imgUpload' //上传接口
+					,field:"imgfile"
+					,done: function(res){
+					//上传完毕回调
+					console.log(res)
+					$('.imgheader').attr('src',res.imgUrl)
+					}
+					,error: function(){
+					//请求异常回调
+					}
+				});
+
+				form.on('submit(add)', function(data){
+					console.log(data);
+					
+					layer.alert("增加成功", {icon: 6},function () {
+						// 获得frame索引
+						var index = parent.layer.getFrameIndex(window.name);
+						//关闭当前frame
+						parent.layer.close(index);
+					});
+					return false;
+				});
+			})
+			
+		</script>
+	</body>
+</html>

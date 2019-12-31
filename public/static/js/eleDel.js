@@ -9,7 +9,7 @@
  * +----------------------------------------------------------------------
  */
 layui.extend({
-	admin: '{/}../../static/js/admin'
+	admin: '/static/js/admin'
 });
 layui.use(['laydate', 'jquery', 'admin'], function() {
 	var laydate = layui.laydate,
@@ -67,6 +67,10 @@ layui.use(['laydate', 'jquery', 'admin'], function() {
 		var data = tableCheck.getData();
 		layer.confirm('确认要删除吗？' + data, function(index) {
 			//捉到所有被选中的，发异步进行删除
+			console.log(data)
+
+
+
 			layer.msg('删除成功', {
 				icon: 1
 			});

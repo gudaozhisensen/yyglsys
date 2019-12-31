@@ -1,0 +1,80 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;	
+}
+#textDiv{
+	width: 100vw;
+	height: 100vh;
+	overflow: scroll;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	background: #FFFFFF;
+}
+.itemHeader{
+	width: 100vw;
+	height: 1rem;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	font-size: 0.5rem;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f2f2f2;
+}
+.itemHeader>.iconfont{
+	position: absolute;
+    left: 0.4rem;
+    font-size: 0.35rem;
+    color: #686666;
+    font-weight: 400;
+    background: #FFFFFF;
+    border-radius: 0.15rem;
+    box-shadow: 0.01rem 0.01rem 0.05rem gainsboro;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 0.1rem;
+}
+.itemDiv{
+	width: 100vw;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	padding: 0 0.5rem;
+	justify-content: space-around;
+	margin:1rem 0;
+}
+.itemDiv p,.itemDiv span{
+	font-size: 0.35rem !important;
+	margin: 0.05rem 0;
+	font-weight: 200;
+}
+.itemDiv h1,.itemDiv h2,.itemDiv h3,.itemDiv h4,.itemDiv h5,.itemDiv h6{
+	font-size: 0.5rem !important;
+	font-weight: 400;
+}
+.itemDiv img{
+	width: 100% !important;
+	height: auto !important;
+}
+.itemDiv>.title{
+	margin: 0.2rem 0;
+}
+.itemDiv>.box{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	padding: 0 0.2rem;
+}
+.itemDiv>.box p{
+	font-size: 0.28rem !important;
+	font-weight: 400;
+	margin: 0.2rem 0;
+	color: #d26565;
+}

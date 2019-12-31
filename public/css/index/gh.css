@@ -1,0 +1,188 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+#header{
+	width: 100vw;
+	height: 1rem;
+	background: #F2F2F2;
+	text-align: center;
+	line-height: 1rem;
+}
+.gh{
+	width: 100vw;
+	height:15rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	font-size: 0.3rem;
+	padding: 0 0.3rem;
+	overflow: scroll;
+}
+
+
+/*这是选择科室的样式*/
+.gh>.ksHeader{
+	width: 100%;
+	height:1rem;
+	display: flex;
+	align-items: center;
+	margin-top: 0.5rem ;
+}
+.gh>.ksHeader .cataory{
+	font-size: 0.5rem;
+}
+.gh>.ksHeader .header{
+	width: 5rem;
+	height: 0.8rem;
+	overflow: hidden;
+}
+.gh>.ksHeader .header>.headerBox{
+	height: 0.8rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.05rem;
+	border: 0.01rem grey solid;
+	outline: skyblue;
+}
+.gh>.ksHeader .header>.headerBox #keshi{
+	width: 80%;
+	outline: none;
+	pointer-events: none;
+	padding: 0 0.2rem;
+	background: none;
+	font-size: 0.3rem;
+	border: none;
+}
+.gh>.ksHeader .header>.headerBox .iconfont{
+	transition: transform 1s;
+	color: coral;
+	font-size: 0.5rem;
+}
+.gh>.ksHeader .header>.headerBox .btn{
+	transform: rotate(180deg);
+}
+.gh>.ksHeader .header>.main{
+	width: 4.98rem;
+	margin-top: 0.1rem;
+	/*background: seagreen;*/
+	padding: 0.1rem 0;
+	display: none;
+	position: absolute;
+	z-index: 11;
+	background: #FFFFFF;
+	/*border: 0.01rem solid gray;*/
+	box-shadow: 0 0 0.05rem black;
+	overflow: hidden;
+}
+.gh>.ksHeader .header>.main li{
+	list-style: none;
+	font-size: 0.3rem;
+	padding: 0.1rem;
+	border-bottom: 0.01rem solid ghostwhite;
+}
+.gh>.ksHeader .header>.main li:hover{
+	background: red;
+}
+
+/*这是选择医生的样式*/
+.gh>.doctorsHeader{
+	width: 100%;
+	height:1rem;
+	display: flex;
+	margin-top: 0.5rem ;
+	align-items: center;
+}
+.gh>.doctorsHeader .cataory{
+	font-size: 0.5rem;
+}
+.gh>.doctorsHeader .header{
+	width: 5rem;
+	height: 0.8rem;
+	overflow: hidden;
+}
+.gh>.doctorsHeader .header>.headerBox{
+	height: 0.8rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.05rem;
+	border: 0.01rem grey solid;
+	outline: skyblue;
+}
+.gh>.doctorsHeader .header>.headerBox #doctors{
+	width: 90%;
+	outline: none;
+	padding: 0 0.2rem;
+	background: none;
+	font-size: 0.3rem;
+	pointer-events: none;
+	border: none;
+}
+.gh>.doctorsHeader .header>.headerBox .iconfont{
+	transition: transform 1s;
+	color: coral;
+	font-size: 0.5rem;
+}
+.gh>.doctorsHeader .header>.headerBox .btn{
+	transform: rotate(180deg);
+}
+.gh>.doctorsHeader .header>.main{
+	width: 4.98rem;
+	margin-top: 0.1rem;
+	/*background: seagreen;*/
+	padding: 0.1rem 0;
+	display: none;
+	position: absolute;
+	background: #FFFFFF;
+	z-index: 10;
+	/*border: 0.01rem solid gray;*/
+	box-shadow: 0 0 0.05rem black;
+	overflow: hidden;
+}
+.gh>.doctorsHeader .header>.main li{
+	list-style: none;
+	font-size: 0.3rem;
+	padding: 0.1rem;
+	border-bottom: 0.01rem solid ghostwhite;
+}
+.gh>.doctorsHeader .header>.main li:hover{
+	background: red;
+}
+
+
+#footer{
+	position: fixed;
+	bottom: 0; 
+	right: 0;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	z-index: 1000;
+	height: 1.2rem;
+	width: 10rem;
+	background: #f7f7f7;
+	box-shadow: 0px 0px 0.21rem 0px rgba(44, 44, 44, 0.38);	
+}
+#footer>a{
+	text-decoration: none;
+}
+#footer>a .btn.iconfont{
+	width: 1.2rem;
+	height: 1rem;
+	font-size: 0.5rem;
+	color: #393939;
+	display: flex;
+	flex-direction: column;
+	align-items: center;	
+	
+}
+#footer>a .btn>p{
+	font-size: 0.3rem;
+}	
+
+#footer>a .active{
+	color: #B22329 !important;
+}

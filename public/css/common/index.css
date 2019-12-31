@@ -1,0 +1,173 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+	color: #B2B2B2;
+}
+.header{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 5rem;
+}
+.imgheader{
+	width: 2.2rem;
+	height: 2.2rem;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #efefef;
+	border-radius: 1.1rem;
+}
+.header .username{
+	margin-top: 0.3rem;
+	font-size: 0.55rem;
+	font-weight: 800;
+	color: #434343;
+}
+
+.myserve{
+	width: 100%;
+	height: 3rem;
+	margin-top: 0.5rem;
+	display: flex;
+	flex-direction: column;
+}
+.myserve .my{
+	font-size: 0.45rem;
+	color: #333333;
+	font-weight: 600;
+	margin-left: 0.35rem;
+}
+.allIcon{
+	display: flex;
+	font-size: 0.45rem;
+	justify-content: space-between;
+	margin-top: 0.45rem;
+}
+.allIcon .smallIcon{
+	display: flex;
+	width: 25%;
+	flex-direction: column;
+	font-size: 0.38rem;
+	color: #B2B2B2;
+	text-align: center;
+	height: 1.5rem;
+}
+
+.allIcon .smallIcon .smallIconImg{
+	width: 0.8rem;
+	height: 0.8rem;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-left: 0.85rem;
+}
+
+.usually{
+	width: 100%;
+	height: 2.5rem;
+	margin-top: 0.5rem;
+	display: flex;
+	flex-direction: column;
+}
+.usually .us{
+	font-size: 0.45rem;
+	color: #333333;
+	font-weight: 600;
+	margin-left: 0.35rem;
+}
+.usually2{
+	width: 100%;
+	height: 2rem;
+	display: flex;
+}
+.smallIcon1{
+	display: flex;
+	flex-direction: column;
+	font-size: 0.38rem;
+	width: 25%;
+	text-align: center;
+	justify-content: center;
+	color: #B2B2B2;
+}
+.smallIcon1 .smallIconImg1{
+	width: 0.8rem;
+	height: 0.8rem;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-left: 0.85rem;
+}
+.usually3{
+	margin-bottom: 2rem;
+}
+.usually3 .more{
+	font-size: 0.45rem;
+	color: #333333;
+	font-weight: 600;
+	margin-left: 0.35rem;
+}
+.allAct{
+	display: flex;
+	margin-top: 0.2rem;
+}
+.allAct .smallAct1{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 3rem;
+	margin-left: 0.4rem;
+	border-radius: 0.4rem;
+	border: 0.01rem solid #737383;
+	position: relative;
+}
+.allAct .smallAct1 span{
+	font-size: 0.4rem;
+	margin-top: 0.4rem;
+	margin-left: 0.3rem;
+	color: #474644;
+}
+.allAct .smallAct1 p{
+	font-size: 0.35rem;
+	margin-left: 0.3rem;
+	color: #A2A2A2;
+}
+.dianBtn{
+	font-size: 0.55rem;
+	margin-top: 0.1rem;
+	margin-left: 0.3rem;
+	font-weight: 600;
+	color: darkred;
+}
+.arrow{
+	width: 0.8rem;
+	height: 0.8rem;
+	background-image: url(/img/common/arrow.png);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 1rem;
+	bottom: 0.7rem;
+}
+.bgimg{
+	width: 1rem;
+	height: 1rem;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 0.2rem;
+	bottom: 0.2rem;
+}
+.back{
+	font-size: 0.45rem;
+	position: absolute;
+	right: 0.35rem;
+	top: 0.35rem;
+	font-weight: 800;
+}

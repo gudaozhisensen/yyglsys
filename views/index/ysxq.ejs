@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="/js/index/REM布局使用.js" type="text/javascript" charset="utf-8"></script>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="/css/index/font-face.css"/>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			.doctor{
+				width: 100vw;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: center;
+			}
+			.doctor>.doctorHeader{
+				width: 100vw;
+				height: 1rem;
+				background:#dbe6e6;
+				font-size: 0.5rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				padding:0 0.2rem ;
+			}
+			.doctor>.doctorHeader .iconfont{
+				text-decoration: none;
+				font-size: 0.35rem;
+				position: absolute;
+				left: 0.25rem;
+				color: #808080;
+				font-family:"iconfont" !important;
+			    font-style:normal;
+			    -webkit-font-smoothing: antialiased;
+			    -webkit-text-stroke-width: 0.2px;
+			    -moz-osx-font-smoothing: grayscale;
+			}
+			.doctor>.doctorMap{
+				flex: 1;
+				display: flex;
+				flex-wrap: wrap;
+				margin: 0.3rem 0;
+				align-items: center;
+				justify-content: space-evenly;
+			}
+			.doctor>.doctorMap .doctorItem{
+				width: 95%;
+				height: 3.5rem;
+				display: flex;
+				background: #F2F2F2;
+				margin: 0.15rem 0;
+				box-shadow: 0 0 0.1rem #C6C6C6;
+				padding: 0.1rem 0.1rem;
+				position: relative;
+				font-size: 0.3rem;
+			}
+			.doctor>.doctorMap .doctorItem>.leftItem{
+				width: 35%;
+				height: 100%;
+				right: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-evenly;
+			}
+			.doctor>.doctorMap .doctorItem>.leftItem img{
+				width: 2.5rem;
+				height: 3rem;
+			}
+			.doctor>.doctorMap .doctorItem>.rightItem .author,.doctor>.doctorMap .doctorItem>.rightItem .cataory{
+				font-size: 0.38rem;
+				font-weight: 600;
+			}
+			.doctor>.doctorMap .doctorItem>.rightItem{
+				width: 65%;
+				height: 100%;
+				display: flex;
+				padding: 0.2rem;
+				flex-direction: column;
+				justify-content: space-evenly;
+				font-size: 0.28rem;
+				align-items: flex-start;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="doctor">
+			<div class="doctorHeader"><a href="/index/home" class="iconfont">&#xe78d;返回首页 </a>主治医生</div>
+			<div class="doctorMap">	
+				<!--分类模块同样是可以循环渲染的-->
+			</div>
+		</div>
+		<script src="/js/index/wyfajax.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var doctorMap = document.querySelector(".doctorMap")
+			let httpUrl = "/index/api/doctors/doctor"
+			let arr = []
+			getAjax(httpUrl,async (res)=>{
+				let result = JSON.parse(res.response)
+				// console.log(result)
+				arr = result.doctor				
+				// console.log(arr)
+				await doctorNum(arr)
+				// await imgItemDivAll(arr)
+			})
+			
+			//渲染首页的主治医生
+			function doctorNum(arr){
+				arr.forEach(async (item,i)=>{
+					// console.log(item)
+					var doctorItem = document.createElement("div")
+					doctorItem.className = "doctorItem"
+					doctorItem.innerHTML = `
+							<div class="leftItem">
+								<img src="${item.doctorheader}"/>
+							</div>
+							<div class="rightItem">
+								<p class="author">主治医生：${item.doctorname}</p>
+								<p class="age">年龄：${item.age}</p>
+								<p class="gender">性别：${item.gender}</p>
+								<p class="cataory">主治门科：${item.officename}</p>
+							</div>
+					`
+					doctorMap.appendChild(doctorItem)
+				});
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>个人信息页面</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="stylesheet" href="/static/css/font.css" />
+    <link rel="stylesheet" href="/static/css/weadmin.css" />
+  </head>
+
+  <body>
+    <div class="weadmin-body">
+      <form class="layui-form" >
+        <div class="layui-form-item">
+          <label for="username" class="layui-form-label">
+            <span class="we-red">*</span>科室名称
+          </label>
+          <div class="layui-input-inline">
+            <div class="layui-btn layui-btn-primary"><%-result.officename%></div>
+           
+          </div>
+        </div> 
+      
+         
+         <div class="layui-form-item">
+          <label for="username" class="layui-form-label">
+            <span class="we-red">*</span>科室简介
+          </label>
+          <textarea name="brief" required lay-verify="brief" placeholder="请输入科室简介" class="layui-textarea" value=""><%-result.brief%></textarea>
+       
+    </div>
+        
+      <div class="layui-form-item">
+        <label for="L_repass" class="layui-form-label"></label>
+        <button class="layui-btn" lay-filter="add" lay-submit="">修改</button>
+      </div>
+      </form>
+    </div>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+ layui.extend({
+				admin: '{/}/static/js/admin'
+            });
+        //引入上传模块
+	    layui.use(['form','layer','admin','upload','jquery'], function(){
+	        var form = layui.form,
+	      	admin = layui.admin,
+	      	layer = layui.layer;
+            var upload = layui.upload;
+            var $ = layui.jquery
+          //自定义验证规则
+          form.verify({
+            nikename: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
+            },
+            brief:function(value){
+              if(value.length<10){
+                return "至少得10个字符"
+              }
+            },
+           officename: [/^[a-zA-Z\u4e00-\u9fa5]+$/, '只能输入中文和英文字母']
+          });
+
+          //监听提交
+          form.on('submit(add)', function(data){
+            console.log(data.field);
+           $.ajax({
+               url:"/admin/doctors/officeList/modification?id=<%-result.id%>",
+               method:"post",
+               data:data.field
+           }).then(function(res){
+             if (res.content=="科室已存在请重新修改") {
+              console.log(res)
+              layer.alert("科室已存在请重新修改", {icon: 5})
+             }else{
+                layer.alert("修改成功", {icon: 6},function () {
+                    // 获得frame索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                    //将ifame的上一层进行刷新页面
+                    window.parent.location.reload()
+                });
+              }
+           })
+            
+            return false;
+          });
+
+        });
+          //执行实例
+           
+          
+          
+      
+    </script>
+  </body>
+</html>

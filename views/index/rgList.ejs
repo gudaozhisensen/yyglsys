@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>挂号列表</title>
+	<meta name="viewport" content="width=375,user-scalable=no" />
+	<link href="/css/common/rgList.css" rel="stylesheet" type="text/css" />
+	<script src="/js/appjs/rem.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+	<a href="/index/private" class="aui-navBar-item backBtn">
+		<img src="/img/common/close.png" style="background-size:100%;" >
+	</a>
+	<div class="title">挂号订单</div>
+	<div class="nav">
+		<div class="Tab active" data-index = "1">未看病</div>
+		<div class="Tab" data-index = "2">已看病</div>
+		<div class="Tab" data-index = "3">已过期</div>
+	</div>
+	<div class="sb">
+		<div class="content show">
+			<%for(let i=0;i<user.length;i++){%>
+				<% if(user[i].stateid == '1') { %>
+					<div class="rginfo">
+						<div class="rginfoTop">
+							<span class="keshi">科室:<%-office[i]%></span>
+							<span class="doctor">医生:<%-doctorname[i]%></span>
+							<span class="people">挂号人:<%-user[i].patientname%></span>
+							<span class="gender">性别:<%-user[i].gender%></span>
+							<div id="cp" class="cp" style="background: url(<% if(imgheader[i] == null){ %>
+								/img/common/guding.jpg
+							<% }else{ %>
+								<%-imgheader[i]%>
+							<% } %>);
+							background-position: center;
+							background-size: 100%;
+							background-repeat: no-repeat;
+							background-color: #dfdfdf;
+							"></div>
+
+						</div>
+						<div class="time"><%-seetime[i]%></div>
+						<a href="/index/private/rgList/bookInfo?patientname=<%-user[i].patientname%>&office=<%-office[i]%>&seetime=<%-user[i].seetime%>&doctor=<%-doctorname[i]%>&brief=<%-user[i].brief%>&prescribe=<%-user[i].prescribe%>&stateid=<%-user[i].stateid%>&doctorid=<%-user[i].doctorid%>&patientid=<%-user[i].id%>">
+							<div class="check">查看详情</div>
+						</a>
+					</div>
+				<% } %>
+			<%}%>
+		</div>
+
+		<div class="content">
+			<%for(let i=0;i<user.length;i++){%>
+				<% if(user[i].stateid == '2') { %>
+					<div class="rginfo">
+						<div class="rginfoTop">
+							<span class="keshi">科室:<%-office[i]%></span>
+							<span class="doctor">医生:<%-doctorname[i]%></span>
+							<span class="people">挂号人:<%-user[i].patientname%></span>
+							<span class="gender">性别:<%-user[i].gender%></span>
+							<div id="cp" class="cp" style="background: url(<% if(imgheader[i] == null){ %>
+								/img/common/guding.jpg
+							<% }else{ %>
+								<%-imgheader[i]%>
+							<% } %>);
+							background-position: center;
+							background-size: 100%;
+							background-repeat: no-repeat;
+							background-color: #dfdfdf;
+							"></div>
+						</div>
+						<div class="time"><%-seetime[i]%></div>
+						<a href="/index/private/rgList/bookInfo?patientname=<%-user[i].patientname%>&office=<%-office[i]%>&seetime=<%-user[i].seetime%>&doctor=<%-doctorname[i]%>&brief=<%-user[i].brief%>&prescribe=<%-user[i].prescribe%>&stateid=<%-user[i].stateid%>&doctorid=<%-user[i].doctorid%>&patientid=<%-user[i].id%>">
+							<div class="check">查看详情</div>
+						</a>
+					</div>
+				<% } %>
+			<%}%>
+		</div>
+		<div class="content">
+			<%for(let i=0;i<user.length;i++){%>
+				<% if(user[i].stateid == '3') { %>
+					<div class="rginfo">
+						<div class="rginfoTop">
+							<span class="keshi">科室:<%-office[i]%></span>
+							<span class="doctor">医生:<%-doctorname[i]%></span>
+							<span class="people">挂号人:<%-user[i].patientname%></span>
+							<span class="gender">性别:<%-user[i].gender%></span>
+							<div id="cp" class="cp" style="background: url(<% if(imgheader[i] == null){ %>
+								/img/common/guding.jpg
+							<% }else{ %>
+								<%-imgheader[i]%>
+							<% } %>);
+							background-position: center;
+							background-size: 100%;
+							background-repeat: no-repeat;
+							background-color: #dfdfdf;
+							"></div>
+						</div>
+						<div class="time"><%-seetime[i]%></div>
+						<a href="/index/private/rgList/bookInfo?patientname=<%-user[i].patientname%>&office=<%-office[i]%>&seetime=<%-user[i].seetime%>&doctor=<%-doctorname[i]%>&brief=<%-user[i].brief%>&prescribe=<%-user[i].prescribe%>&stateid=<%-user[i].stateid%>&doctorid=<%-user[i].doctorid%>&patientid=<%-user[i].id%>">
+							<div class="check">查看详情</div>
+						</a>
+					</div>
+				<% } %>
+			<%}%>
+		</div>
+	</div>
+
+	<script src="/js/appjs/jquery-1.11.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$('.Tab').click(function(e){
+			$(this).addClass("active").siblings().removeClass("active");	
+			var index = $(this).index();
+			$(this).parent().next().children().eq(index).addClass("show").siblings().removeClass("show");
+		})
+		
+		
+		
+		
+	</script>
+</body>
+	
+</html>

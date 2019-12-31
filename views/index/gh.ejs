@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="/js/index/REM布局使用.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/js/index/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="/css/index/font-face.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/index/gh.css"/>
+		<!-- <link rel="stylesheet" href="/static/css/font.css" /> -->
+    	<link rel="stylesheet" href="/static/css/weadmin.css" />
+		<script src="/lib/layui/layui.all.js" charset="utf-8"></script>
+		<title></title>
+		<style type="text/css">
+			.gh>.date{
+				width: 100%;
+				height: 1rem;
+				display: flex;
+				align-items: center;
+				margin-top: 0.5rem ;
+			}
+			.gh>.date input{
+				width: 30%;
+				height: 90%;
+				margin-right: 0.2rem;
+				pointer-events: none;
+			}
+			.gh>.textDiv{
+				width: 100%;
+				height: 5rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				margin-top: 0.5rem ;
+			}
+			.gh>.textDiv textarea{
+				width: 100%;
+				height: 85%;
+				font-size: 0.35rem;
+				border: 0.01rem darkgray solid;
+				outline: none;
+				padding: 0.1rem;
+				resize:none;
+				background: none;
+			}
+			.gh>.submitBtn{
+				pointer-events: none;
+				width: 2.5rem;
+				height: 0.8rem;
+				margin: 0.5rem auto 2rem;
+				background: #e2fabf;
+				border: none;
+				font-size: 0.35rem;
+				color: gray;
+				outline: none;
+				border-radius: 0.2rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<!--<div id="content">
+			<i class="iconfont">&#xe608;</i>
+			
+		</div>-->
+		
+		<form action="/index/api/patients/makeNum" method="post">
+			<h3 id="header">预约挂号</h3>
+			<div class="gh">
+				<div class="ksHeader">
+					<p class="catoary">科室：</p>
+					<div class="header">
+						<div class="headerBox">
+							<input type="text" name="keshi" id="keshi" value="" placeholder="请选择一个科室"/>
+							<i class="iconfont">&#xe67a;</i>
+						</div>
+						<ul class="main"></ul>	
+					</div>
+				</div>
+					
+				<div class="doctorsHeader">
+					<p class="catoary">医生：</p>
+					<div class="header">
+						<div class="headerBox">
+							<input type="text" name="doctors" id="doctors" value="" placeholder="请选择主治医生"/>
+							<i class="iconfont">&#xe67a;</i>
+						</div>
+						<ul class="main"></ul>	
+					</div>
+				</div>	
+				
+				<div class="date"> <!-- 注意：这一层元素并不是必须的 -->
+					<p>日期：</p>
+					<input name="time" type="text" class="layui-input" id="test1" value="" placeholder="请先选医生">
+					<!--<p>时间：</p>
+					<input type="text" class="layui-input" id="test2" placeholder="请先选日期">
+					<input type="text" class="layui-input" id="test1">-->
+					<!-- <div class="timeBtn">确定</div> -->
+				</div>
+				
+				<div class="textDiv">
+					<p>填写：</p>
+					<textarea placeholder="请如实填写个人身体哪里不舒服"></textarea>
+				</div>
+				
+				<button type="submit" class="submitBtn">提交信息</button>
+			</div>
+		</form>
+		
+		<div id="footer">
+			<a href="/index/home"><div class="btn  iconfont">&#xe600;<p>首页</p></div></a>
+			<a href="/index/gh"><div class="btn iconfont active">&#xe614;<p>挂号</p></div></a>
+			<a href="/index/news"><div class="btn iconfont">&#xe6af;<p>新闻</p></div></a>
+			<a href="/index/private"><div class="btn iconfont">&#xe601;<p>我的</p></div></a>
+		</div>
+
+		<script type="text/javascript">
+			let isbangding = true
+			let httpUrl = "/index/api/doctors/getOffice";
+			let office;
+			let dortor;
+			let doctorID;
+			$.get(httpUrl).then(function(res){
+				if(res.office.length > 1){
+					res.office.forEach((item,i)=>{
+						let li = document.createElement('li')
+						li.id = "office"+item.id
+						li.innerHTML = `
+							${item.officename}
+						`;
+						$('.ksHeader .main').append(li)
+					})
+				}else{
+					let li = document.createElement('li')
+					li.id = "office"+res.office.id
+					li.innerHTML = `
+						${res.office.officename}
+					`;
+					$('.ksHeader .main').append(li)
+				}
+				$('.gh>.ksHeader .header>.headerBox').click(()=>{
+					$('.gh>.ksHeader .header>.headerBox .iconfont').toggleClass('btn')//有则删除，无则添加
+					$('.gh>.ksHeader .header>.main').slideToggle("show")
+					if($('.gh>.ksHeader .header>.main').css("display") == "block" ){
+						$('.gh>.doctorsHeader .header>.main').css("display","none")
+						$('.gh>.doctorsHeader .header>.headerBox .iconfont').removeClass("btn")//有则删除，无则添加
+					}
+				})
+				$('.gh>.ksHeader .header>.main li').click((e)=>{
+					
+					$('#doctors')[0].value = ""
+					$('#keshi')[0].value = e.toElement.innerText
+					office = $('#keshi')[0].value
+					
+					$('.gh>.ksHeader .header>.headerBox .iconfont').toggleClass('btn')//有则删除，无则添加
+					$('.gh>.ksHeader .header>.main').slideToggle("show")
+					let id = e.target.id.split('office')[1]
+					$('.doctorsHeader>.header>.main')[0].innerHTML = "";
+					let httpUrl = "/index/api/doctors/getDoctor?id="+id;
+					$.get(httpUrl).then(function(res){
+						if(res.doctor.length > 1){
+							res.doctor.forEach((item,i)=>{
+								let li = document.createElement('li')
+								li.id = "doctor"+item.id;
+								li.innerHTML = `
+									${item.doctorname}
+								`;
+								$('.doctorsHeader .main').append(li)
+							})
+						}else{
+							let li = document.createElement('li')
+							li.id = "doctor"+res.doctor[0].id
+							li.innerHTML = `
+								${res.doctor[0].doctorname}
+							`;
+							$('.doctorsHeader .main').append(li)
+						}
+					if(isbangding){
+						//选择科室,先判断科室内容是否已选，如果没有，则点击不了，提示先选择科室
+						$('.gh>.doctorsHeader .header>.headerBox').click((e)=>{
+							if($('#keshi')[0].value == ""){
+								//console.log("禁止点击")
+								$('#doctors')[0].value = "请先选择科室！！！！"
+								$('#doctors').css("color","red")
+							}else{
+								$('.gh>.doctorsHeader .header>.headerBox .iconfont').toggleClass('btn')//有则删除，无则添加
+								$('.gh>.doctorsHeader .header>.main').slideToggle("show")
+								$('#doctors').css("color","none")
+								if($('.gh>.doctorsHeader .header>.main').css("display") == "block" ){
+									$('.gh>.ksHeader .header>.main').css("display","none")
+									$('#test1').css('pointer-events','all')
+								}
+							}
+						})
+						if($('#doctors').val() != ""){}
+						isbangding = false
+					}
+						
+							
+						
+						$('.gh>.doctorsHeader .header>.main li').click((e)=>{
+							//console.log(e.toElement.innerText)
+							$('#doctors')[0].value = e.toElement.innerText
+							dortor = $('#doctors')[0].value
+							$('.gh>.doctorsHeader .header>.headerBox .iconfont').toggleClass('btn')//有则删除，无则添加
+							$('.gh>.doctorsHeader .header>.main').slideToggle("show")
+							let id = e.target.id.split('doctor')[1]
+							doctorID = id;
+						})
+						
+						var isTrue =false;
+						
+						layui.use('laydate', function(){
+							let layer =  layui.layer
+							var laydate = layui.laydate;
+							//执行一个laydate实例
+							laydate.render({
+								elem: '#test1' //指定元素,
+								,min: 0
+								,max: 6
+								,trigger:'click'
+								,done: function(value, date){
+									console.log(value)
+									$.ajax({
+										url:"/index/api/doctors/getNum",
+										method:'get',
+										data:{value,office,dortor,doctorID}
+									}).then((res)=>{
+										console.log(res);
+						
+									})
+								}
+							})
+							
+							let i = 1
+							$('#test1').click(async ()=>{
+								// console.log(111)
+								let dleData = await $('#layui-laydate1 > div.layui-laydate-main.laydate-main-list-0 > div.layui-laydate-content > table > tbody > tr > td')
+								// console.log(dleData)
+								dleData.click(async (e)=>{
+									await $('#layui-laydate1').css('z-index',"1111")
+									// console.log(e)
+									if(i>10){
+										layer.open({
+											title:"当天人数已满！！！！！",
+											content:'请重新选择日期',
+										})
+										isTrue = false
+										$('.submitBtn').css("pointer-events","none")
+										$('#keshi').css("pointer-events","none")
+										$('#doctors').css("pointer-events","none")
+									}else{
+										isTrue = true
+										$('.submitBtn').css("pointer-events","all")
+										$('#keshi').css("pointer-events","all")
+										$('#doctors').css("pointer-events","all")
+									}
+									
+								})
+							})
+
+							
+						});
+					})
+					
+				
+				})
+			})
+		</script>
+	</body>
+</html>

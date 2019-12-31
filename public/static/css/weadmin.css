@@ -155,15 +155,12 @@ body {
   vertical-align: middle;
   cursor: pointer;
   color: #ffffff;
-  background-color: #999999;
+  background-color: #189F92;
   border-radius: 3px;
   border: none;
   -webkit-appearance: none;
   outline: none;
   width: 100%;
-}
-.active {
-  background-color: #189F92 !important;
 }
 .login hr {
   background: #fff 0 0 no-repeat;

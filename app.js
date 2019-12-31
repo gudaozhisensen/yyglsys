@@ -1,55 +1,57 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-//引入session模块
-var session = require('express-session');
-var logger = require('morgan');
+//导入模块---------------------------------
+const express = require('express');
+const path = require('path');
+const session = require('express-session');
 
-var indexRouter = require('./routes/index');
-var doctorsRouter = require('./routes/admin/doctorsRouter');
+//导入路由模块------------------------------
+const indexRouter = require('./routes/index/index');
+const usersRouter = require('./routes/users');
+//后台模块
+const adminRouter = require('./routes/admin/admin');
+//注册登入模块
+const loginRouter = require('./routes/login/login');
+//退出登录模块
+const loginOut = require('./routes/login/loginOut');
 
-var app = express();
+//实例化app--------------------------------
+let app = express();
 
-// view engine setup
+//设置视图引擎------------------------------
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
-//配置session
-app.use(session({
-  secret: "dfdgfdgsgg",
-  resave:true,//强制保存session
-  cookie:{
-    maxAge:7*24*60*60*1000,//设置session的有效期为1周
-  },
-  saveUninitialized:true//是否保存初始化的session
-}))
-
-// app.use(logger('dev'));
+//设置中间件---------------------------
 app.use(express.json());
+//post请求解析body
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+//静态目录中间件
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-app.use('/admin', doctorsRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+//配置session中间件
+app.use(
+  session({
+    secret: 'kas@#._23ld', //cookie签名，这个属性是必须的
+    resave: 'false', //当用户的session无变化时依然自动保存
+    saveUninitialized: true, //是否自动初始化，默认为true
+    cookie: {
+      maxAge: 5 * 60 * 1000, //设置session的有效期
+      secure: false
+    }
+  })
+);
+app.get('/', (req, res) => {
+  res.redirect('/rl');
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//设置路由中间件---------------------------
+//前台路由
+app.use('/index', indexRouter);
+app.use('/users', usersRouter);
+//后台路由
+app.use('/admin', adminRouter);
+//登入路由
+app.use('/rl', loginRouter);
+//退出登录路由
+app.use('/loginOut', loginOut);
 
 module.exports = app;

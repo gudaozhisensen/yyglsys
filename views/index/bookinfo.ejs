@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" type="text/css" href="/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="/lib/layui/css/layui.mobile.css"/>
+		<style type="text/css">
+			body{
+				background-color: #efefef;
+				padding-bottom: 3rem;
+			}
+			.title{
+				width: 100%;
+				height: 56.25px;
+				text-align: center;
+				line-height: 56.25px;
+				font-size: 21px;
+				background-color: #FBFBFB;
+				margin-bottom: 25px;
+				color: #333333;
+				font-weight: 800;
+			}
+			.subBtn{
+				margin-left: 160px!important;
+			}
+			.layui-form-radio{
+				margin-right: 0px!important;
+				margin-left: 6px!important;
+			}
+			.backBtn{
+				position: absolute;
+				left: 20px;
+				top: 16px;
+				font-size: 15px!important;
+				padding: 0;
+				min-width: 10px;
+			
+			}
+			.backBtn>img{
+				background-size: 100%;
+				background-position: center;
+				background-repeat: no-repeat;
+				width: 17px;
+				height: 17px;
+			}
+			.layui-form{
+				padding-bottom: 50px;
+			}
+			#stars{
+				position: absolute;
+				bottom: 218px;
+				left: 100px;
+				padding: 0!important;
+			}
+			.content{
+				position: relative;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="./" class="aui-navBar-item backBtn">
+			<img src="/img/common/close.png" style="background-size:100%;" >
+		</a>
+		<div class="title">挂号信息</div>
+		<div class="content">
+			<form class="layui-form layui-form-pane" action="POST">
+			  <div class="layui-form-item layui-form-pane">
+				<label class="layui-form-label">患者姓名</label>
+				<div class="layui-input-block">
+				  <input type="text" name="username" value="<%-patientname%>" disabled="disabled" autocomplete="off" class="layui-input">
+				</div>
+			  </div>
+			  <div class="layui-form-item layui-form-pane">
+				<label class="layui-form-label">所属科室</label>
+				<div class="layui-input-block">
+				  <input type="text" name="office" value="<%-office%>" disabled="disabled" autocomplete="off" class="layui-input">
+				</div>
+			  </div>
+			  <div class="layui-form-item layui-form-pane">
+				<label class="layui-form-label">看病时间</label>
+				<div class="layui-input-block">
+				  <input type="text" name="time" value="<%-seetime%>" disabled="disabled" autocomplete="off" class="layui-input">
+				</div>
+			  </div>
+			  <div class="layui-form-item layui-form-pane">
+				<label class="layui-form-label">主治医师</label>
+				<div class="layui-input-block">
+				  <input type="text" name="doctor" value="<%-doctor%>" disabled="disabled" autocomplete="off" class="layui-input">
+				</div>
+			  </div>
+			  <div class="layui-form-item layui-form-pane">
+				<label class="layui-form-label">挂号状态</label>
+				<div class="layui-input-block">
+				  <input type="text" name="register"
+				  value="<% if(stateid == '1') {%>未看病<% } %><% if(stateid == '2') {%>已看病<% } %><% if(stateid == '3') {%>已过期<% } %>"
+				  disabled="disabled" autocomplete="off" class="layui-input">
+				</div>
+			  </div>
+			  <div class="layui-form-item layui-form-text layui-form-pane">
+				<label class="layui-form-label">患病详情</label>
+				<div class="layui-input-block">
+				  <textarea name="illness" placeholder="<%-brief%>" disabled="disabled" class="layui-textarea"></textarea>
+				</div>
+			  </div>
+			  <div class="layui-form-item layui-form-text layui-form-pane">
+				<label class="layui-form-label">药物</label>
+				<div class="layui-input-block">
+				  <textarea name="drug" placeholder="<%-prescribe%>" disabled="disabled" class="layui-textarea"></textarea>
+				</div>
+			  </div>
+
+			  <% if(stateid == '2') { %>
+				<div class="layui-form-item layui-form-text layui-form-pane">
+					<label class="layui-form-label">评论及评分</label>
+					<div class="layui-input-block">
+					<textarea name="comment"
+						<%if(isComment){%>
+							disabled
+						<%}%>
+					class="layui-textarea"><%if(isComment){%><%-result[0].comment%><%}%>
+					</textarea>
+					</div>
+				</div>
+				<div id="stars"></div>
+			  <%}%>
+				<div class="layui-form-item">
+					<div class="layui-input-block subBtn">
+
+					<button 
+						<%if(stateid == '1'||stateid == '3'){%>
+						style="display: none;" 
+						<%}%>
+					class="layui-btn 
+					<%if(isComment){%>
+						layui-btn-disabled
+					<%}%>" 
+						lay-submit 
+						<%if(isComment){%>
+						disabled 
+						<%}%>
+					lay-filter="formDemo">立即提交</button>		
+					</div>
+				</div>
+			</form>
+		</div>
+		<script src="/lib/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+		//Demo
+		layui.use(['form','rate','jquery'], function(){
+		  var form = layui.form;
+		  var rate = layui.rate;
+		  var $ = layui.jquery;
+		  
+			//渲染
+			var ins1 = rate.render({
+				elem: '#stars'//绑定元素
+				<%if(isComment){%>
+					,value:"<%-result[0].star%>"
+					,readonly:true
+				<%}%>
+				,setText: function(value){
+					var arrs = {
+					'1': '1'
+					,'2': '2'
+					,'3': '3'
+					,'4': '4'
+					,'5':'5'
+					};
+					this.span.text(arrs[value] || ( value + "星"));
+					let stars = document.querySelector('#stars')
+					let layuibtn = document.querySelector('.layui-btn')
+					
+					//监听提交
+					form.on('submit(formDemo)', function(data){
+						let comment = data.field.comment
+						let doctorid = "<%-doctorid%>";
+						let patientid = "<%-patientid%>"
+						let obj = {
+						comment,
+						star:arrs[value],
+						doctorid,
+						patientid
+						}
+						$.ajax({
+							method:"POST",
+							url:'/index/private/rgList/bookInfo',
+							data:obj
+						})
+						layer.msg('评论成功', {
+							icon: 1
+						});
+
+						location.reload()
+						return false;
+					});
+					
+					
+
+				}
+			});
+		});
+		
+		
+		
+		</script>
+	</body>
+</html>

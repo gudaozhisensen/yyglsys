@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>添加医生页面</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="stylesheet" href="/static/css/font.css" />
+    <link rel="stylesheet" href="/static/css/weadmin.css" />
+   
+  </head>
+
+  <body>
+    <div class="weadmin-body">
+      <form class="layui-form" action="/admin/doctors/doctorsList/modification" method="POST">
+        <div class="layui-form-item">
+          <label for="L_pass" class="layui-form-label">
+            <span class="we-red">*</span>头像
+          </label>
+          <div class="layui-input-inline">
+            <img id='imgUrl' style='width: 100px; height: 100px;' src="" alt="">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label for="L_pass" class="layui-form-label">
+            <span class="we-red">*</span>头像上传
+            <input hidden type="text" name="imgheader" id="imgheader">
+          </label>
+
+          <div class="layui-input-inline">
+            <button type="button" class="layui-btn" id="imgfile">
+              <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+          </div>
+        
+        </div>
+        <div class="layui-form-item">
+          <label for="username" class="layui-form-label">
+            <span class="we-red">*</span>姓名
+          </label>
+          <div class="layui-input-inline">
+            <input
+              type="text"
+              id="doctorname"
+              name="doctorname"
+              required="" 
+              lay-verify="doctorname"
+              value=""
+              autocomplete="off"
+              class="layui-input"
+            />
+          </div>
+          <div class="layui-form-mid layui-word-aux">
+            <span class="we-red"></span>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label for="phone" class="layui-form-label">
+            <span class="we-red">*</span>年龄
+          </label>
+          <div class="layui-input-inline">
+            <input
+              type="text"
+              id="age"
+              name="age"
+              required="" 
+              lay-verify="age"
+              name="age"
+              value=""
+              autocomplete="off"
+              class="layui-input"
+            />
+          </div>
+          <div class="layui-form-mid layui-word-aux">
+            <span class="we-red"></span>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label for="L_email" class="layui-form-label">
+            <span class="we-red">*</span>性别
+          </label>
+          <div class="layui-input-inline">
+            <input
+              type="text"
+              id="gender"
+              name="gender"
+              required="" 
+              lay-verify="gender"
+              value=""
+              autocomplete="off"
+              class="layui-input"
+            />
+          </div>
+          <div class="layui-form-mid layui-word-aux">
+            <span class="we-red"></span>
+          </div>
+        </div>
+
+
+
+
+        <div class="layui-form-item">
+          <label for="L_email" class="layui-form-label">
+            <span class="we-red">*</span>值班日期
+          </label>
+          <div class="layui-input-inline">
+            <input class="layui-input" id="data" name="data" lay-verify="data" required=""  type="text" placeholder="请选择值班日期" value="">
+          </div>
+   
+
+        
+        
+        
+       
+          
+          <label for="L_email" class="layui-form-label">
+            <span class="we-red">*</span>值班时段
+          </label>
+            <div class="layui-input-inline">
+              <select name="dutyid" lay-verify="dutyid" required="" id="dutyid">
+                <option value="">请选择值班时段</option>
+                <%for (let i=0;i<dutyname.length;i++){%>
+                  <option value="<%-dutyname[i].id%>"><%-dutyname[i].dutyname%> 
+                  </option>
+                <%}%>
+              </select>     
+              </div>
+        
+      </div>
+
+
+        
+
+
+        <div class="layui-form-item">
+          <label for="L_email" class="layui-form-label">
+            <span class="we-red">*</span>科室
+          </label>
+         
+            <div class="layui-input-inline">
+              <select name="officeid" lay-verify="officeid" id="officeid" >
+                
+                <option value="">请选择科室</option>
+                <%for (let i=0;i<officename.length;i++){%>
+                  <option value="<%-officename[i].id%>"><%-officename[i].officename%> 
+                  </option>
+                <%}%>
+              </select>     
+          </div>
+         
+        </div>
+        
+
+
+        <div class="layui-form-item">
+          <label for="L_email" class="layui-form-label">
+            <span class="we-red">*</span>职务
+          </label>
+         
+            <div class="layui-input-inline">
+              <select name="doctortitleid" lay-verify="doctortitleid" id="doctortitleid" >
+                
+                <option value="">请选择职务</option>
+                <%for (let i=0;i<doctortitle.length;i++){%>
+                  <option value="<%-doctortitle[i].id%>"><%-doctortitle[i].doctortitle%> 
+                  </option>
+                <%}%>
+              </select>     
+          </div>
+         
+        </div>
+
+
+        <div class="layui-form-item">
+          <label for="L_repass" class="layui-form-label"></label>
+          <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+        </div>
+      </form>
+    </div>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+ layui.extend({
+				admin: '{/}/static/js/admin'
+			});
+	    layui.use(['form','layer','admin','upload','jquery','laydate'], function(){
+	        var form = layui.form,
+	      	admin = layui.admin,
+          layer = layui.layer;
+          var upload = layui.upload;
+          var $ = layui.jquery;
+          var laydate=layui.laydate;
+        
+          //执行一个laydate实例
+           laydate.render({
+           elem: '#data',
+           range: true,
+           trigger:"click"
+          });
+          form.render();
+          //自定义验证规则
+          form.verify({
+              nikename: function(value){
+                if(value.length == 0){
+                  return '姓名不能为空';
+                }
+              },
+              doctorname: [/^[a-zA-Z\u4e00-\u9fa5]+$/, '不能为空且只能输入中文和英文字母'],
+              age:[/^(1[18]|[2-6]\d|60)$/,"不能为空且只能输入18到69岁"],//18岁以上
+              gender:[/^(男|女|中)$/,"不能为空且只能输入男性或者女性，中性，且不能大于两位"],
+              allpeople:[/^\d+$|^\d+[.]?\d+$/,"不能为空且只能输入纯数字"],
+              data:function(value){//值班日期
+              if(value.length==0){
+                  return "必须设置值班时间";
+              }
+            },
+            dutyid:function(value){//值班时段
+                if (value.length==0) {
+                  return "必须设置值班时段"
+                }
+            },
+            officeid:function(value){
+                if(value.length==0){
+                  return "必须设置科室"
+                }
+            }
+            })
+       
+
+          //执行实列
+          var uploadInst = upload.render({
+            elem: '#imgfile' //绑定元素
+            ,url: '/admin/doctors/doctorsList/addimgupload', 
+            field:'imgfile'
+            ,done: function(res){
+              //上传完毕回调
+              $('#imgUrl').attr('src',res.imgUrl)
+              $("#imgheader").val(res.imgUrl)
+            }
+            ,error: function(){
+              //请求异常回调
+            }
+          });
+
+    
+        //监听提交
+            form.on('submit(add)', function(data) {
+              console.log(data.field);
+              $.ajax({
+                method:'post',
+                url:'/admin/doctors/doctorsList/addDoctors',
+              data:data.field
+              })
+
+
+            layer.alert('增加成功', { icon: 6 }, function() {
+              // 获得frame索引
+              var index = parent.layer.getFrameIndex(window.name);
+              //关闭当前frame
+              parent.layer.close(index);
+              parent.location.reload()
+            });
+            return false;
+          });
+        });
+
+       
+      
+
+
+      
+      
+    </script>
+  </body>
+</html>
